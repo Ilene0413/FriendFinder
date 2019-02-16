@@ -37,15 +37,12 @@ module.exports = function (app) {
     // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
     // It will do this by sending out the value "true" have a table
     // req.body is available since we're using the body parsing middleware
-    console.log(`in post api friends`);
     let newUser = req.body;
     let bestMatch = {
       name: "",
       picture: ""
     }
     let saveScore = 0;
-    console.log(`set variables savescore ${saveScore} bestmatch ${bestMatch.name}`);
-    console.log(`friends data ${friendsData.length}`);
     for (let i = 0; i < friendsData.length; i++) {
       //set question to zero for each friend 
 
@@ -53,9 +50,7 @@ module.exports = function (app) {
 
       for (let j = 0; j < newUser.scores.length; j++) {
         questionScore += Math.abs(friendsData[i].scores[j] - newUser.scores[j]);
-        console.log(`questionScore before totalling ${questionScore}`);
       }
-      console.log(`questionScore after ${questionScore}`);
 
       //first friend is the low score - so save it's data
       //in the event of a tie, the last friend that is compared to is the best match
@@ -72,9 +67,7 @@ module.exports = function (app) {
         };
       };
     };
-    console.log(`after for loops bestmatch ${bestMatch.name} ${bestMatch.photo}`);
-    res = bestMatch;
-    console.log(`res ${res.name}  ${res.photo}`);
+    res.json(bestMatch);
   });
 }
 
