@@ -79,7 +79,7 @@
                 <br><br>
 
                 <h4>Question 2</h4>
-                <label for="q2">I feel like a little kid when I visit DisneyWorld</label> 
+                <label for="q2">I feel like a little kid when I visit DisneyWorld</label>
                 <br>
                 <select required id="q2">
                   <option value=" ">Select an option</option>
@@ -92,7 +92,7 @@
                 <br><br>
 
                 <h4>Question 3</h4>
-                <label for="q3">Epcot is my favorite Disney Park</label>
+                <label for="q3">Spaceship Earth is my favorite attraction in Epcot</label>
                 <br>
                 <select required id="q3">
                   <option value=" ">Select an option</option>
@@ -118,7 +118,7 @@
                 <br><br>
 
                 <h4>Question 5</h4>
-                <label for="q5">Animal Kingdom has the best attractions compared to the other Disney Parks</label>
+                <label for="q5">Disney after Hours is a must</label>
                 <br>
                 <select required id="q5">
                   <option value=" ">Select an option</option>
@@ -170,7 +170,7 @@
                 <br><br>
 
                 <h4>Question 9</h4>
-                <label for="q9">Disney Hollywood Studios has great movie themed attractions</label>
+                <label for="q9">The classic attractions like "It's a Small World" are my favorite </label>
                 <br>
                 <select required id="q9">
                   <option value=" ">Select an option</option>
@@ -183,7 +183,7 @@
                 <br><br>
 
                 <h4>Question 10</h4>
-                <label for="q10">I have the most fun at the water parks</label>
+                <label for="q10">Thriller attractions are the best!</label>
                 <br>
                 <select rquired id="q10">
                   <option value=" ">Select an option</option>
@@ -215,17 +215,14 @@
 
 </body>
 
-<!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
+<!-- Code to send to server -->
 <script type="text/javascript">
-  // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
-  // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
-  // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
-  // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
+  // code to execute when submit button clicked
 
   $(".submit").on("click", function (event) {
     event.preventDefault();
 
-    // Here we grab the form elements
+    //  get the form elements
     let newUser = {
       userName: $("#user-name").val().trim(),
       userPicture: $("#user-picture").val().trim(),
@@ -242,8 +239,9 @@
     let q9 = $("#q9").val();
     let q10 = $("#q10").val();
 
-    //check that all form entries have input values; name and picture cannot be spaces
-    //alert user if they have not entered all fields
+
+    //validate the form input
+    //all entries must have a value
 
     if ((newUser.userName === "" || newUser.userName == " ") ||
       (newUser.userPicture === "" || newUser.userPicture == " ") ||
@@ -260,6 +258,11 @@
       alert("all fields are required");
       return;
     }
+    //check that picture link is a url
+    if (newUser.userPicture.substring(0, 4) !== "http") {
+      alert("picture link must be a url");
+      return;
+    }
 
     //all survey questions answered - push question scores to new user score array
     newUser.scores[0] = q1;
@@ -272,19 +275,20 @@
     newUser.scores[7] = q8;
     newUser.scores[8] = q9;
     newUser.scores[9] = q10;
-    //call function to get a match
+
+    //call function to get a friend match
     callApiFriends(newUser);
   });
 
+  //this function is called to obtain the best match and display a modal of the match
+
   function callApiFriends(newUser) {
 
-    // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
-    // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-    // depending on if a tables is available or not.
+    //tell the server where to go to process request and on the callback display the modal (modal design is from bootstrap)
 
     $.post("/api/friends", newUser,
       function (data) {
-        //put in code to say who person matched with
+//clear the modal
         $("#myModal").empty();
 
         let myModal = $("#myModal");
@@ -314,7 +318,7 @@
         let btn = document.getElementsByClassName("close")[0];
 
 
-        // When the user clicks on <span> (x), close the modal
+        // When the user clicks on <button (x), close the modal
         btn.onclick = function () {
           modal.style.display = "none";
         }
@@ -325,7 +329,7 @@
             modal.style.display = "none";
           }
         }
-        // Clear the form & modal when submitting
+        // Clear the form when submitting
         $("#user-name").val("");
         $("#user-picture").val("");
         $("#q1").val("");

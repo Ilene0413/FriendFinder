@@ -1,7 +1,6 @@
 // ===============================================================================
 // LOAD DATA
-// We are linking our routes to a series of "data" sources.
-// These data sources hold arrays of information on table-data, waitinglist, etc.
+// linking routes to a series of "data" sources.
 // ===============================================================================
 
 let friendsData = require("../data/friendsData");
@@ -34,9 +33,6 @@ module.exports = function (app) {
   // ---------------------------------------------------------------------------
 
   app.post("/api/friends", function (req, res) {
-    // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
-    // It will do this by sending out the value "true" have a table
-    // req.body is available since we're using the body parsing middleware
     let newUser = req.body;
     let bestMatch = {
       name: "",

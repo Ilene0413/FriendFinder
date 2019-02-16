@@ -1,6 +1,6 @@
 // ===============================================================================
 // DEPENDENCIES
-// We need to include the path package to get the correct file path for our html
+// include the path package to get the correct file path for html
 // ===============================================================================
 let path = require("path");
 
